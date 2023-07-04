@@ -97,7 +97,7 @@ class WorkOrder1Controller extends Controller
             ]);
             DB::commit();
 
-            return redirect()->route('workorder1')->with('success','Data berhasil disetujui');
+            return redirect()->route('workorder1');
         } catch (\Throwable $th) {
             DB::rollBack();
             return back()->with('error', $th->getMessage());
@@ -116,7 +116,7 @@ class WorkOrder1Controller extends Controller
             ]);
             DB::commit();
 
-            return redirect()->route('workorder1')->with('success','Data berhasil ditolak');
+            return redirect()->route('workorder1');
         } catch (\Throwable $th) {
             DB::rollBack();
             return back()->with('error', $th->getMessage());

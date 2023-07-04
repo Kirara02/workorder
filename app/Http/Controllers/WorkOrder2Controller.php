@@ -56,7 +56,7 @@ class WorkOrder2Controller extends Controller
 
     public function edit($id)
     {
-        $title = "Edit Data WOrk Order 2";
+        $title = "Edit Data Work Order 2";
         $data = WorkOrderDetail::with(['workorder','workorder.employee','workorder.company','workorder.department'])->findOrFail($id);
 
         return view('pages.workorder2.detail', compact('title','data'));
@@ -73,7 +73,7 @@ class WorkOrder2Controller extends Controller
             ]);
             DB::commit();
 
-            return redirect()->route('workorder2')->with('success', 'Data berhasil diedit');
+            return redirect()->route('workorder2');
         } catch (\Throwable $th) {
             DB::rollBack();
             return back()->with('error', $th->getMessage());
