@@ -125,6 +125,50 @@
     </div>
   </div>
 
+  <!-- Card Modal -->
+  <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+      <div class="modal-content p-3 p-md-5">
+        <div class="modal-body">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="text-center mb-4">
+            <h3 class="mb-2">Keterangan Ditolak</h3>
+            <p class="text-muted"></p>
+          </div>
+          <form action="{{ route('workorder1.reject', $data->id) }}" method="POST"  class="row g-3">
+            @csrf
+            @method('PUT')
+            <div class="col-12">
+                <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
+                    <label class="form-label" for="creditCardMask">Keterangan</label>
+                    <div class="input-group input-group-merge">
+
+                      <textarea id="description" class="form-control" name="description" placeholder="Berikan Alasan Kenapa Ditolak !!!!!!" cols="30" rows="5"></textarea>
+                    </div>
+                    @error('description')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary me-sm-3 me-1">Simpan</button>
+              <button
+                type="reset"unit_code
+                unit_code
+                class="btn btn-label-secondary btn-reset"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Card Modal -->
+
 @endsection
 
 @section('page-script')
