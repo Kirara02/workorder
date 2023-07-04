@@ -76,7 +76,7 @@
                   <span class="app-brand-logo demo">
                     <img src="{{ asset('assets/logo/logoasto.png') }}" alt="logo" width="50px" height="50px">
                   </span>
-                  <span class="app-brand-text demo text-body fw-bold ms-1">Work Order</span>
+                  <span class="app-brand-text demo text-body fw-bold ms-1">Eye System</span>
                 </a>
               </div>
               <!-- /Logo -->
@@ -156,5 +156,6 @@
 
     <!-- Page JS -->
     <script src="{{ asset('/') }}assets/js/pages-auth.js"></script>
+    @include('sweetalert::alert')
   </body>
 </html>

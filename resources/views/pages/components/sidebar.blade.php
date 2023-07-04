@@ -6,7 +6,7 @@
         <span class="app-brand-logo">
           <img src="{{ asset('assets/logo/logoasto.png') }}" alt="" srcset="" width="50px" height="50px">
         </span>
-        <span class="app-brand-text demo menu-text fw-bold">Work Order</span>
+        <span class="app-brand-text demo menu-text fw-bold">Eye System</span>
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-white text-large ms-auto">
