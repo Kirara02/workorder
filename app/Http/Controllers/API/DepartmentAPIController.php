@@ -26,7 +26,7 @@ class DepartmentAPIController extends Controller
             $data = Department::find($id);
 
             if(!$data){
-                return ResponseFormatter::error(null'data dengan ID '.$id.' tidak ditemukan',404);
+                return ResponseFormatter::error(null,'data dengan ID '.$id.' tidak ditemukan',404);
             }
 
             return ResponseFormatter::success($data, 'data dengan ID '.$id.' berhasil diambil');

@@ -74,9 +74,9 @@
               <div class="app-brand justify-content-center mb-4 mt-2">
                 <a href="{{ route('login') }}" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
-                    <img src="{{ asset('assets/logo/logo_prosmart_kotak.png') }}" alt="logo" width="30px" height="30px">
+                    <img src="{{ asset('assets/logo/logoasto.png') }}" alt="logo" width="50px" height="50px">
                   </span>
-                  <span class="app-brand-text demo text-body fw-bold ms-1">ProSmart</span>
+                  <span class="app-brand-text demo text-body fw-bold ms-1">Work Order</span>
                 </a>
               </div>
               <!-- /Logo -->

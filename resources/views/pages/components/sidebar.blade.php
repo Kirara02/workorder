@@ -4,8 +4,9 @@
     <div class="app-brand demo">
       <a href="{{ route('dashboard') }}" class="app-brand-link">
         <span class="app-brand-logo">
-          <img src="{{ asset('assets/logo/logo_prosmart_landscape.png') }}" alt="" srcset="" width="130px" height="60px">
+          <img src="{{ asset('assets/logo/logoasto.png') }}" alt="" srcset="" width="50px" height="50px">
         </span>
+        <span class="app-brand-text demo menu-text fw-bold">Work Order</span>
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-white text-large ms-auto">
