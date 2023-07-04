@@ -55,7 +55,6 @@
     <script src="{{ asset('/') }}assets/vendor/js/helpers.js"></script>
     {{-- <script src="../../assets/vendor/js/template-customizer.js"></script> --}}
     <script src="{{ asset('/') }}assets/js/config.js"></script>
-
     <script src="https://cdn.tiny.cloud/1/a8zube64hm2g9hibvk0novxagjnpi0231rl5sg66bw72i2lu/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
@@ -111,6 +110,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- BEGIN: Page JS-->
+    @include('sweetalert::alert')
     @yield('page-script')
     <!-- END: Page JS-->
 

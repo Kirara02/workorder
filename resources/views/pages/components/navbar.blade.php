@@ -1,9 +1,6 @@
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+<nav class="layout-navbar container-xxl navbar position-absolute navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
 
-    <!--  Brand demo (display only for navbar-full and hide on below xl) -->
-
-    <!-- ! Not required for layout-without-menu -->
-          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0  d-xl-none ">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0  d-xl-none ">
       <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
         <i class="ti ti-menu-2 ti-sm"></i>
       </a>
@@ -69,7 +66,7 @@
             </li>
             </ul>
         </li>
-        <!--/ User -->  
+        <!--/ User -->
       </ul>
     </div>
 
