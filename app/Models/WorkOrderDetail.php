@@ -9,8 +9,11 @@ class WorkOrderDetail extends Model
 {
     use HasFactory;
     protected $table = 'work_order_details';
-    protected $fillable = ['item','qty','unit_code','unit_type','egi','workorder_id'];
+    protected $fillable = ['item','qty','image','unit_id','workorder_id'];
     public function workorder(){
         return $this->belongsTo(WorkOrder::class,'workorder_id');
+    }
+    public function unit(){
+        return $this->belongsTo(Unit::class,'unit_id');
     }
 }

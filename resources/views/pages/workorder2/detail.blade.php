@@ -56,19 +56,19 @@
               <tr>
                 <td><small class="text-light fw-semibold">Jenis Unit</small></td>
                 <td class="py-1">
-                  <p class="mb-0">{{ $data->unit_type ?? '-' }}</p>
+                  <p class="mb-0">{{ $data->unit->type ?? '-' }}</p>
                 </td>
               </tr>
               <tr>
                 <td><small class="text-light fw-semibold">Kode Unit</small></td>
                 <td class="py-1">
-                  <p class="mb-0">{{ $data->unit_code ?? '-' }}</p>
+                  <p class="mb-0">{{ $data->unit->unit ?? '-' }}</p>
                 </td>
               </tr>
               <tr>
                 <td><small class="text-light fw-semibold">EGI</small></td>
                 <td class="py-1">
-                  <p class="mb-0">{{ $data->egi ?? '-' }}</p>
+                  <p class="mb-0">{{ $data->unit->egi ?? '-' }}</p>
                 </td>
               </tr>
               <tr>
@@ -102,6 +102,12 @@
                 </td>
               </tr>
               <tr>
+                <td><small class="text-light fw-semibold">Image</small></td>
+                <td class="py-1">
+                  <a href="{{ asset('./storage/'.$data->image) }}">Klik untuk melihat gambar</a>
+                </td>
+              </tr>
+              <tr>
                 <td class="py-2">
                     <div class="row">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#editModal" class="col-6 btn btn-danger btn-block">Edit</button>
@@ -125,43 +131,52 @@
             <h3 class="mb-2">Data Work Order</h3>
             <p class="text-muted">Edit Data Work Order Lainnya</p>
           </div>
-          <form action="{{ route('workorder2.update', $data->id) }}" method="POST"  class="row g-3">
+          <form action="{{ route('workorder2.update', $data->id) }}" method="POST"  class="row g-3" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="col-12">
                 <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
                     <label class="form-label" for="creditCardMask">Jenis Unit</label>
                     <div class="input-group input-group-merge">
-                      <input type="text" id="unit_type" class="form-control" name="unit_type" placeholder="Jenis Unit" value="{{ $data->unit_type ?? old('unit_type') }}" />
+                        <select name="type" id="type" class="form-select">
+                            <option selected disabled value="">Pilih Jenis Unit</option>
+                            @foreach ($type as $i)
+                                <option value="{{ $i->type }}">{{ $i->type }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    @error('unit_type')
+                    @error('type')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
                     <label class="form-label" for="creditCardMask">Kode Unit</label>
-                    <div class="input-group input-group-merge">
-                      <input type="text" id="unit_code" class="form-control" name="unit_code" placeholder="Kode Unit" value="{{ $data->unit_code ?? old('unit_code') }}" />
+                    <div class="form-group">
+                        <select id="unit" name="unit" class="form-control" disabled>
+                          <option value="">Pilih Unit</option>
+                        </select>
                     </div>
-                    @error('unit_code')
+                    @error('unit')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
                     <label class="form-label" for="creditCardMask">EGI</label>
-                    <div class="input-group input-group-merge">
-                      <input type="text" id="egi" class="form-control" name="egi" placeholder="EGI" value="{{ $data->egi ?? old('egi') }}" />
+                    <div class="form-group">
+                        <select id="egi" name="egi" class="form-control" disabled>
+                          <option value="">Pilih EGI</option>
+                        </select>
                     </div>
                     @error('egi')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
-                    <label class="form-label" for="creditCardMask">Upload Gambar (Max: 4 gambar)</label>
+                    <label class="form-label" for="creditCardMask">Upload Gambar (Max: 1 gambar)</label>
                     <div class="input-group input-group-merge">
-                      <input type="file" id="images" class="form-control" name="images[]"/>
+                      <input type="file" id="image" class="form-control" name="image"/>
                     </div>
-                    @error('images[]')
+                    @error('image')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -184,4 +199,55 @@
     </div>
   </div>
   <!--/ Card Modal -->
+@endsection
+
+@section('page-script')
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    // Ambil elemen-elemen yang diperlukan
+    var typeSelect = document.getElementById('type');
+    var unitSelect = document.getElementById('unit');
+    var egiSelect = document.getElementById('egi');
+
+    // Tambahkan event listener untuk perubahan pilihan tipe
+    typeSelect.addEventListener('change', function() {
+      var selectedType = this.value;
+
+      // Kosongkan pilihan unit sebelumnya
+      unitSelect.innerHTML = '<option value="">Pilih Unit</option>';
+      unitSelect.disabled = true;
+
+      egiSelect.innerHTML = '<option value="">Pilih EGI</option>';
+      egiSelect.disabled = true;
+
+      if (selectedType) {
+        var url = '/unit/' + selectedType + '/get-by-type';
+        // Lakukan permintaan AJAX menggunakan library seperti Axios atau fetch
+        axios.get(url)
+            .then(function(response) {
+                var units = response.data;
+                units.forEach(function(unit) {
+                    var option = document.createElement('option');
+                    option.value = unit.unit; // Ganti dengan nilai yang sesuai
+                    option.textContent = unit.unit; // Ganti dengan atribut yang sesuai
+                    unitSelect.appendChild(option);
+                });
+                unitSelect.disabled = false;
+
+                var egis = response.data;
+                egis.forEach(function(egi) {
+                    var option = document.createElement('option');
+                    option.value = egi.egi; // Ganti dengan nilai yang sesuai
+                    option.textContent = egi.egi; // Ganti dengan atribut yang sesuai
+                    egiSelect.appendChild(option);
+                });
+                egiSelect.disabled = false;
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        }
+    });
+  </script>
 @endsection

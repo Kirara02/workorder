@@ -25,7 +25,7 @@ class WorkOrder1Controller extends Controller
 
             return DataTables::of($data)
             ->addColumn('units', function($row){
-                return $row->details()->pluck('item')->implode(', ') ?? '-';
+                return $row->details()->pluck('item')->unique()->implode(', ') ?? '-';
             })
             ->addColumn('amount', function($row){
                 return $row->details()->sum('qty') ?? '0';

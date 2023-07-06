@@ -62,7 +62,7 @@
               <tr>
                 <td><small class="text-light fw-semibold">Unit yang diperlukan</small></td>
                 <td class="py-1">
-                  <p class="mb-0">{{ $data->details()->pluck('item')->implode(', ') ?? '-' }}</p>
+                  <p class="mb-0">{{ $data->details()->pluck('item')->unique()->implode(', ') ?? '-' }}</p>
                 </td>
               </tr>
               <tr>

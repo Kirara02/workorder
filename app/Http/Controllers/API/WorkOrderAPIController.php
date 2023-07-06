@@ -33,12 +33,17 @@ class WorkOrderAPIController extends Controller
                 'status' => '1',
             ]);
             $detail = '';
-            foreach($jsonData['items'] as $item){
-                $detail = WorkOrderDetail::create([
-                    'item' => $item['item'],
-                    'qty' => $item['qty'],
-                    'workorder_id' => $data->id,
-                ]);
+            foreach ($jsonData['items'] as $item) {
+                $qty = $item['qty'];
+
+                // Membuat detail WorkOrder sebanyak qty
+                for ($i = 0; $i < $qty; $i++) {
+                    $detail = WorkOrderDetail::create([
+                        'item' => $item['item'],
+                        'qty' => 1,
+                        'workorder_id' => $data->id,
+                    ]);
+                }
             }
             $data['items'] = $detail::where('workorder_id', $data->id)->get();
             DB::commit();

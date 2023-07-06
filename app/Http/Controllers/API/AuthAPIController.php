@@ -21,7 +21,7 @@ class AuthAPIController extends Controller
 
             return response()->json(['message' => 'User logged in!', 'data' => $user, 'token' => $token]);
            }else{
-               return response()->json(['error'=>'Something went wrong in login'],400);
+               return response()->json(['error'=>'Invalid email or password.'],400);
            }
 
         } catch (\Throwable $th) {

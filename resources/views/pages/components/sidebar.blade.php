@@ -45,6 +45,11 @@
                     <div>Departemen</div>
                 </a>
             </li>
+            <li class="menu-item {{ request()->is('unit') || request()->is('unit/*') ? 'active' : '' }}">
+                <a href="{{ route('unit.index') }}" class="menu-link text-white">
+                    <div>Unit</div>
+                </a>
+            </li>
         </ul>
       </li>
       <li class="menu-item {{ (request()->is('workorder-1') ? 'active':'') }}">

@@ -60,13 +60,13 @@ class EmployeeController extends Controller
         $request->validate([
             'nrp' => 'required|',
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:employees,email',
             'no_handphone' => 'required',
             'date_born' => 'required',
             'address' => 'required',
             'department_id' => 'required|exists:departments,id',
             'company_id' => 'required|exists:companies,id',
-            'password' => 'required',
+            'password' => 'required|max:8',
         ]);
         try {
             DB::beginTransaction();
@@ -124,6 +124,7 @@ class EmployeeController extends Controller
             'address' => 'required',
             'department_id' => 'required|exists:departments,id',
             'company_id' => 'required|exists:companies,id',
+            'password' => 'min:8'
         ]);
 
         try {

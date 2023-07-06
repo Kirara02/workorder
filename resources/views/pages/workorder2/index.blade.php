@@ -92,16 +92,16 @@
               name: 'qty'
           },
           {
-              data: 'unit_type',
-              name: 'unit_type'
+              data: 'unit.type',
+              name: 'unit.type'
           },
           {
-              data: 'unit_code',
-              name: 'unit_code'
+              data: 'unit.unit',
+              name: 'unit.unit'
           },
           {
-              data: 'egi',
-              name: 'egi'
+              data: 'unit.egi',
+              name: 'unit.egi'
           },
           {
               data: 'workorder.end_date',

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nrp',12);
             $table->string('name',40);
-            $table->string('email',50);
+            $table->string('email',50)->unique();
             $table->string('no_handphone',15);
             $table->date('date_born');
             $table->text('address');

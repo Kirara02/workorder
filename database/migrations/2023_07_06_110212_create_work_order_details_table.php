@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('item',25);
             $table->integer('qty');
-            $table->string('unit_type',25)->nullable();
-            $table->string('unit_code',25)->nullable();
-            $table->string('egi',25)->nullable();
+            $table->string('image',200)->nullable();
+            $table->foreignId('unit_id')->nullable()->constrained('units')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('workorder_id')->nullable()->constrained('work_orders')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class WorkOrder2Controller extends Controller
@@ -15,7 +17,7 @@ class WorkOrder2Controller extends Controller
         $title = 'Work Order 2';
 
         if($request->ajax()){
-            $data = WorkOrderDetail::with(['workorder','workorder.employee','workorder.company','workorder.department'])
+            $data = WorkOrderDetail::with(['workorder','workorder.employee','workorder.company','workorder.department','unit'])
             ->whereHas('workorder', function ($query) {
                 $query->where('status', 2);
             })
@@ -57,19 +59,27 @@ class WorkOrder2Controller extends Controller
     public function edit($id)
     {
         $title = "Edit Data Work Order 2";
+        $type = Unit::select('type')->groupBy('type')->get();
+        $unit = Unit::select('unit')->groupBy('unit')->get();
+        $egi = Unit::select('egi')->groupBy('egi')->get();
+
         $data = WorkOrderDetail::with(['workorder','workorder.employee','workorder.company','workorder.department'])->findOrFail($id);
 
-        return view('pages.workorder2.detail', compact('title','data'));
+        return view('pages.workorder2.detail', compact('title','data','type','unit','egi'));
     }
 
     public function update(Request $request, $id)
     {
         try {
             DB::beginTransaction();
+
+            $unit = Unit::where('type',$request->type)->where('unit', $request->unit)->where('egi',$request->egi)->first();
+            $image = $request->file('image');
+            $imageUrl = $image->storeAs('workorder', Str::random(12). '.' . $image->extension());
+
             WorkOrderDetail::findOrFail($id)->update([
-                'unit_type' => $request->unit_type,
-                'unit_code' => $request->unit_code,
-                'egi' => $request->egi,
+                'image' => $imageUrl,
+                'unit_id' => $unit->id
             ]);
             DB::commit();
 

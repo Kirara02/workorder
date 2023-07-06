@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Unit;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -69,6 +70,51 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]
+        ]);
+
+        Unit::insert([
+            [
+                "unit" => "CM0030",
+                "egi" => "COMPRESOR",
+                "type" => "COMPRESOR",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],
+            [
+                "unit" => "CM0059",
+                "egi" => "COMPRESOR",
+                "type" => "COMPRESOR",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],
+            [
+                "unit" => "CT0008",
+                "egi" => "P380CB6X4",
+                "type" => "CRANE TRUCK",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],
+            [
+                "unit" => "CT0017",
+                "egi" => "P380CB6X4",
+                "type" => "CRANE TRUCK",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],
+            [
+                "unit" => "CR0012",
+                "egi" => "CRUSHER",
+                "type" => "CRUSHER",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],
+            [
+                "unit" => "FR0601",
+                "egi" => "FORKLIFT",
+                "type" => "FORKLIFT",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],
         ]);
 
     }
