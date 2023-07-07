@@ -101,12 +101,14 @@
                   <p class="mb-0">{{ $data->workorder->hours_use.' Jam' }}</p>
                 </td>
               </tr>
-              <tr>
-                <td><small class="text-light fw-semibold">Image</small></td>
-                <td class="py-1">
-                  <a href="{{ asset('./storage/'.$data->image) }}">Klik untuk melihat gambar</a>
-                </td>
-              </tr>
+              @if ($data->image != null)
+                <tr>
+                    <td><small class="text-light fw-semibold">Image</small></td>
+                    <td class="py-1">
+                    <a href="{{ asset('./storage/'.$data->image) }}">Klik untuk melihat gambar</a>
+                    </td>
+                </tr>
+              @endif
               @if($data->unit_id == null)
                 <tr>
                     <td class="py-2">
