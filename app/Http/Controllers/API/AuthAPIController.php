@@ -14,14 +14,14 @@ class AuthAPIController extends Controller
     public function login(Request $request){
         try {
 
-           if(Auth::guard('employee')->attempt(['email' => $request->input('email'),'password' => $request->input('password')])){
+           if(Auth::guard('employee')->attempt(['nrp' => $request->input('nrp'),'password' => $request->input('password')])){
             $user = Auth::guard('employee')->user();
 
             $token = $user->createToken('MyApp',['employee'])->plainTextToken;
 
             return response()->json(['message' => 'User logged in!', 'data' => $user, 'token' => $token]);
            }else{
-               return response()->json(['error'=>'Invalid email or password.'],400);
+               return response()->json(['error'=>'Invalid nrp or password.'],400);
            }
 
         } catch (\Throwable $th) {

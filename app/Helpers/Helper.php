@@ -16,7 +16,7 @@ class Helper {
             $nextNumber = 1;
         }
 
-        $formattedNumber = str_pad($nextNumber, 8, '0', STR_PAD_LEFT); // Mengubah nomor menjadi format yang diinginkan (contoh: "00000002")
+        $formattedNumber = str_pad($nextNumber, 6, '0', STR_PAD_LEFT); // Mengubah nomor menjadi format yang diinginkan (contoh: "00000002")
         $employeeNumber = 'ID.' . $formattedNumber;
 
         return $employeeNumber;

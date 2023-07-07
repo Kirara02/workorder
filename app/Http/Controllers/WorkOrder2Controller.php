@@ -70,6 +70,11 @@ class WorkOrder2Controller extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'unit' => 'required',
+            'egi' => 'required',
+            'type' => 'required',
+        ]);
         try {
             DB::beginTransaction();
 
