@@ -154,5 +154,16 @@
         });
     </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const viewAllLink = document.querySelector('#view-all-notifications-link');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+        viewAllLink.addEventListener('click', function() {
+            dropdownToggle.click(); // Memicu klik pada toggle dropdown
+        });
+    });
+</script>
+
 </body>
 </html>
