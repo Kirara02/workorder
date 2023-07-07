@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 <h4 class="fw-bold py-3 mb-34">
-    <span class="text-muted fw-light">{{ $title }}  /</span> Feature / {{ $title }}
+    <span class="text-muted fw-light">Data Work Order 1  /</span> Feature / {{ $title }}
 </h4>
 <div class="row">
     <!-- Inline text elements -->

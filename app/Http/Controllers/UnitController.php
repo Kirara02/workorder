@@ -79,7 +79,7 @@ class UnitController extends Controller
 
     public function edit($id)
     {
-        $title = "Tambah Data Unit";
+        $title = "Edit Data Unit";
         $unit = Unit::findOrFail($id);
         $method = "PUT";
         $action = route('unit.update', $id);
@@ -131,7 +131,7 @@ class UnitController extends Controller
     public function getByType($type)
     {
         $units = Unit::where('type','=', $type)->get();
-        
+
         return response()->json($units);
     }
 }

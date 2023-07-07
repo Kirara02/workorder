@@ -12,7 +12,7 @@ class WorkOrder1Controller extends Controller
 {
     public function index(Request $request)
     {
-        $title = 'Work Order 1';
+        $title = 'Data Work Order 1';
 
         if($request->ajax()){
             $query = WorkOrder::with(['employee','department','company','details'])->limit(1000);
@@ -82,7 +82,7 @@ class WorkOrder1Controller extends Controller
 
     public function show($id)
     {
-        $title = 'Data Work Order 1';
+        $title = 'Detail Work Order 1';
         $data = WorkOrder::with(['employee','department','company','details'])->findOrFail($id);
 
         return view('pages.workorder1.detail', compact('title','data'));

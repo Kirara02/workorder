@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 <h4 class="fw-bold py-3 mb-34">
-    <span class="text-muted fw-light">{{ $title }}  /</span> Feature / {{ $title }}
+    <span class="text-muted fw-light"> Data Work Order 2 /</span> Feature / {{ $title }}
 </h4>
 <div class="row">
     <!-- Inline text elements -->
@@ -107,13 +107,15 @@
                   <a href="{{ asset('./storage/'.$data->image) }}">Klik untuk melihat gambar</a>
                 </td>
               </tr>
-              <tr>
-                <td class="py-2">
-                    <div class="row">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#editModal" class="col-6 btn btn-danger btn-block">Edit</button>
-                    </div>
-                </td>
-              </tr>
+              @if($data->unit_id == null)
+                <tr>
+                    <td class="py-2">
+                        <div class="row">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#editModal" class="col-6 btn btn-danger btn-block">Edit</button>
+                        </div>
+                    </td>
+                </tr>
+              @endif
             </tbody>
           </table>
         </div>

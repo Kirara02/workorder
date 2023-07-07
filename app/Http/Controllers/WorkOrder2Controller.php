@@ -14,7 +14,7 @@ class WorkOrder2Controller extends Controller
 {
     public function index(Request $request)
     {
-        $title = 'Work Order 2';
+        $title = 'Data Work Order 2';
 
         if($request->ajax()){
             $data = WorkOrderDetail::with(['workorder','workorder.employee','workorder.company','workorder.department','unit'])
@@ -58,7 +58,7 @@ class WorkOrder2Controller extends Controller
 
     public function edit($id)
     {
-        $title = "Edit Data Work Order 2";
+        $title = "Detail Data Work Order 2";
         $type = Unit::select('type')->groupBy('type')->get();
         $unit = Unit::select('unit')->groupBy('unit')->get();
         $egi = Unit::select('egi')->groupBy('egi')->get();
