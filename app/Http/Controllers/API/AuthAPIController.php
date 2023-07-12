@@ -19,14 +19,15 @@ class AuthAPIController extends Controller
 
            if(Auth::guard('employee')->attempt(['nrp' => $request->input('nrp'),'password' => $request->input('password')])){
             $user = Auth::guard('employee')->user();
-            $user['company'] = Company::findOrFail($user->company_id);
-            $user['departemen'] = Department::findOrFail($user->department_id);
+            $user['company'] = Company::select('id','name','address')->findOrFail($user->company_id);
+            $user['departemen'] = Department::select('id','name')->findOrFail($user->department_id);
             $token = $user->createToken('MyApp',['employee'])->plainTextToken;
 
             return response()->json(['message' => 'User logged in!', 'data' => new AuthResource($user), 'token' => $token]);
            }else{
                return response()->json(['error'=>'Invalid nrp or password.'],400);
            }
+
 
         } catch (\Throwable $th) {
             return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
