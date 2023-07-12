@@ -29,13 +29,11 @@ class AuthAPIController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
         try {
 
-            $user = Employee::findOrFail($request->input('id'));
-
-            $user->tokens()->delete();
+            $user = Auth::user()->tokens()->delete();
 
             return response()->json(['message' => 'User logged out!'], 200);
 

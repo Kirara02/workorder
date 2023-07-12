@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\Helper;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\WorkOrderResource;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderDetail;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class WorkOrderAPIController extends Controller
         try {
             $data = WorkOrder::with(['details'])->get();
 
-            return ResponseFormatter::success($data, 'Data sukses diambil');
+            return ResponseFormatter::success(WorkOrderResource::collection($data), 'Data sukses diambil');
         } catch (\Throwable $th) {
             return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
         }
