@@ -19,10 +19,9 @@ class WorkOrderAPIController extends Controller
             DB::beginTransaction();
 
             $jsonData = $request->json()->all();
-            $woNumber = Helper::generateWONumber();
 
             $data = WorkOrder::create([
-                'wo_number' => $woNumber,
+                'wo_number' => $request->wo_number,
                 'order_date' => $jsonData['order_date'],
                 'employee_id' => $jsonData['employee_id'],
                 'department_id' => $jsonData['department_id'],
@@ -51,6 +50,16 @@ class WorkOrderAPIController extends Controller
             return ResponseFormatter::success($data,'Data created successfully',201);
         } catch (\Throwable $th) {
             DB::rollBack();
+            return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
+        }
+    }
+
+    public function generateNomor(){
+        try {
+            $nomor = Helper::generateWONumber();
+            
+            return ResponseFormatter::success($nomor, 'Data sukses diambil');
+        } catch (\Throwable $th) {
             return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
         }
     }
