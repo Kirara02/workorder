@@ -35,8 +35,8 @@ Route::middleware(['auth:sanctum','abilities:employee'])->group(function(){
     });
     Route::controller(WorkOrderAPIController::class)->group(function(){
         Route::get('workorders','all');
-        Route::get('workorders/get-nomor','generateNomor');
         Route::get('workorders/{id}','show');
+        Route::get('workorders/nomor/generate','generateNomor');
         Route::post('workorders','store');
     });
 });
