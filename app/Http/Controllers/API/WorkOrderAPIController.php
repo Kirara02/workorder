@@ -57,8 +57,8 @@ class WorkOrderAPIController extends Controller
     public function generateNomor(){
         try {
             $nomor = Helper::generateWONumber();
-            
-            return ResponseFormatter::success($nomor, 'Data sukses diambil');
+
+            return ResponseFormatter::success(['wo_number' => $nomor], 'Data sukses diambil');
         } catch (\Throwable $th) {
             return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
         }
