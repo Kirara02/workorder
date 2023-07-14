@@ -49,10 +49,9 @@
               "defaultContent": "-",
               "targets": "_all"
           },
-
       ],
       order: [
-          [0, 'ASC']
+          [0, 'DESC']
       ],
       columns: [
           {

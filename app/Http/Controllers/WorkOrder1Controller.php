@@ -17,10 +17,6 @@ class WorkOrder1Controller extends Controller
         if($request->ajax()){
             $query = WorkOrder::with(['employee','department','company','details'])->limit(1000);
 
-            if ($request->status) {
-                $query->where('status', $request->input('status'));
-            }
-
             $data = $query->get();
 
             return DataTables::of($data)

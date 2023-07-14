@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\WorkOrderResource;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -64,12 +65,35 @@ class WorkOrderAPIController extends Controller
         }
     }
 
-    public function all()
+    public function all(Request $request)
     {
         try {
-            $data = WorkOrder::with(['details'])->get();
+            $limit = $request->input('limit', 10);
 
-            return ResponseFormatter::success(WorkOrderResource::collection($data), 'Data sukses diambil');
+            $query = WorkOrder::with(['details'])->where('employee_id', $request->input('user_id'));
+
+            if($request->input('status')){
+                $status = '';
+                if($request->input('status') == 'pending'){
+                    $status = 1;
+                }else if ($request->input('status') == 'approved'){
+                    $status = 2;
+                }else if ($request->input('status') == 'rejected'){
+                    $status = 3;
+                }
+                $query = $query->where('status',$status);
+            }
+            if($request->input('status_project')){
+                $statusProject = '';
+                if($request->input('status_project') == 'open'){
+                    $query->where('end_date', '>', now());
+                }else if($request->input('status_project') == 'close'){
+                    $query->where('end_date', '<', now());
+                }
+            }
+            $data = $query->latest()->paginate($limit);
+
+            return ResponseFormatter::success($data, 'Data sukses diambil');
         } catch (\Throwable $th) {
             return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
         }
