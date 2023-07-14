@@ -70,8 +70,12 @@ class WorkOrderAPIController extends Controller
         try {
             $limit = $request->input('limit', 10);
 
-            $query = WorkOrder::with(['details'])->where('employee_id', $request->input('user_id'));
-
+            $query = WorkOrder::with(['details'])
+                ->select('work_orders.id', 'wo_number','order_date', 'employees.name as name', 'nrp','companies.name as company','departments.name as department','start_date','end_date','hours_use','status','request_description')
+                ->join('employees', 'work_orders.employee_id', '=', 'employees.id')
+                ->join('companies', 'work_orders.company_id', '=', 'companies.id')
+                ->join('departments', 'work_orders.department_id', '=', 'departments.id')
+                ->where('employee_id', $request->input('user_id'));
             if($request->input('status')){
                 $status = '';
                 if($request->input('status') == 'pending'){
@@ -91,7 +95,8 @@ class WorkOrderAPIController extends Controller
                     $query->where('end_date', '<', now());
                 }
             }
-            $data = $query->latest()->paginate($limit);
+
+            $data = $query->orderBy('work_orders.created_at', 'desc')->paginate($limit);
 
             return ResponseFormatter::success($data, 'Data sukses diambil');
         } catch (\Throwable $th) {
