@@ -71,38 +71,55 @@ class WorkOrderAPIController extends Controller
             $limit = $request->input('limit', 10);
 
             $query = WorkOrder::with(['details'])
-                ->select('work_orders.id', 'wo_number','order_date', 'employees.name as name', 'nrp','companies.name as company','departments.name as department','start_date','end_date','hours_use','status','request_description')
+                ->select('work_orders.id', 'wo_number', 'order_date', 'employees.name as name', 'nrp', 'companies.name as company', 'departments.name as department', 'start_date', 'end_date', 'hours_use', 'status', 'request_description')
                 ->join('employees', 'work_orders.employee_id', '=', 'employees.id')
                 ->join('companies', 'work_orders.company_id', '=', 'companies.id')
                 ->join('departments', 'work_orders.department_id', '=', 'departments.id')
                 ->where('employee_id', $request->input('user_id'));
-            if($request->input('status')){
+
+            if ($request->input('status')) {
                 $status = '';
-                if($request->input('status') == 'pending'){
+                if ($request->input('status') == 'pending') {
                     $status = 1;
-                }else if ($request->input('status') == 'approved'){
+                } else if ($request->input('status') == 'approved') {
                     $status = 2;
-                }else if ($request->input('status') == 'rejected'){
+                } else if ($request->input('status') == 'rejected') {
                     $status = 3;
                 }
-                $query = $query->where('status',$status);
+                $query->where('status', $status);
             }
-            if($request->input('status_project')){
-                $statusProject = '';
-                if($request->input('status_project') == 'open'){
+
+            if ($request->input('status_project')) {
+                if ($request->input('status_project') == 'open') {
                     $query->where('end_date', '>', now());
-                }else if($request->input('status_project') == 'close'){
+                } else if ($request->input('status_project') == 'close') {
                     $query->where('end_date', '<', now());
                 }
             }
 
+            if($request->input('search')){
+                $query->where('wo_number','like','%'.$request->input('search').'%');
+            }
+
             $data = $query->orderBy('work_orders.created_at', 'desc')->paginate($limit);
+
+        $data->getCollection()->transform(function ($workOrder) {
+            $details = $workOrder->details->map(function ($detail) {
+                return [
+                    'item' => $detail->item,
+                    'qty' => $detail->qty,
+                ];
+            })->toArray();
+            $workOrder->details = $details;
+            return $workOrder;
+        });
 
             return ResponseFormatter::success($data, 'Data sukses diambil');
         } catch (\Throwable $th) {
-            return ResponseFormatter::error('Something went wrong in '.$th->getMessage(),400);
+            return ResponseFormatter::error('Something went wrong in ' . $th->getMessage(), 400);
         }
     }
+
 
     public function show($id)
     {
