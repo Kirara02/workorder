@@ -68,7 +68,7 @@ class WorkOrderAPIController extends Controller
     public function all(Request $request)
     {
         try {
-            $limit = $request->input('limit', 10);
+            $limit = $request->input('limit');
 
             $query = WorkOrder::with(['details'])
                 ->select('work_orders.id', 'wo_number', 'order_date', 'employees.name as name', 'nrp', 'companies.name as company', 'departments.name as department', 'start_date', 'end_date', 'hours_use', 'status', 'request_description')
@@ -101,18 +101,9 @@ class WorkOrderAPIController extends Controller
                 $query->where('wo_number','like',$request->input('search').'%');
             }
 
-            $data = $query->orderBy('work_orders.created_at', 'desc')->paginate($limit);
 
-        // $data->getCollection()->transform(function ($workOrder) {
-        //     $details = $workOrder->details->map(function ($detail) {
-        //         return [
-        //             'item' => $detail->item,
-        //             'qty' => $detail->qty,
-        //         ];
-        //     })->toArray();
-        //     $workOrder->details = $details;
-        //     return $workOrder;
-        // });
+
+            $data = $query->orderBy('work_orders.created_at', 'desc')->paginate($limit);
 
             return ResponseFormatter::success($data, 'Data sukses diambil');
         } catch (\Throwable $th) {

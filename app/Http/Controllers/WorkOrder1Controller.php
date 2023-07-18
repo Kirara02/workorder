@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\WorkOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -91,6 +92,16 @@ class WorkOrder1Controller extends Controller
             WorkOrder::findOrFail($id)->update([
                 'status' => 2,
             ]);
+
+            $data = WorkOrder::findOrFail($id);
+
+            Notification::create([
+                'employee_id' => $data->employee_id,
+                'date' => Carbon::parse($data->created_at)->format('Y-m-d H:m:s'),
+                'status' => 'Approved',
+                'description' => '-'
+            ]);
+
             DB::commit();
 
             return redirect()->route('workorder1');
@@ -110,6 +121,16 @@ class WorkOrder1Controller extends Controller
                 'status' => 3,
                 'description' => $request->description
             ]);
+
+            $data = WorkOrder::findOrFail($id);
+
+            Notification::create([
+                'employee_id' => $data->employee_id,
+                'date' => Carbon::parse($data->created_at)->format('Y-m-d H:m:s'),
+                'status' => 'Ditolak',
+                'description' => $data->description
+            ]);
+
             DB::commit();
 
             return redirect()->route('workorder1');

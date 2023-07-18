@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthAPIController;
 use App\Http\Controllers\API\CompanyAPIController;
 use App\Http\Controllers\API\DepartmentAPIController;
+use App\Http\Controllers\API\NotificationAPIController;
 use App\Http\Controllers\API\WorkOrderAPIController;
 use App\Http\Controllers\DepartmentController;
 use Illuminate\Http\Request;
@@ -38,6 +39,9 @@ Route::middleware(['auth:sanctum','abilities:employee'])->group(function(){
         Route::get('workorders/{id}','show');
         Route::get('workorders/nomor/generate','generateNomor');
         Route::post('workorders','store');
+    });
+    Route::controller(NotificationAPIController::class)->group(function(){
+        Route::get('notifications','all');
     });
 });
 
