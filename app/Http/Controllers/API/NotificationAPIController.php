@@ -19,7 +19,7 @@ class NotificationAPIController extends Controller
 
 
             if($request->input('search')){
-                $query->where('wo_number','like',$request->input('search').'%');
+                $query->where('date','like',$request->input('search').'%');
             }
 
             $data = $query->orderBy('notifications.created_at', 'desc')->paginate($limit);
