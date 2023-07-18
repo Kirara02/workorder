@@ -98,21 +98,21 @@ class WorkOrderAPIController extends Controller
             }
 
             if($request->input('search')){
-                $query->where('wo_number','like','%'.$request->input('search').'%');
+                $query->where('wo_number','like',$request->input('search').'%');
             }
 
             $data = $query->orderBy('work_orders.created_at', 'desc')->paginate($limit);
 
-        $data->getCollection()->transform(function ($workOrder) {
-            $details = $workOrder->details->map(function ($detail) {
-                return [
-                    'item' => $detail->item,
-                    'qty' => $detail->qty,
-                ];
-            })->toArray();
-            $workOrder->details = $details;
-            return $workOrder;
-        });
+        // $data->getCollection()->transform(function ($workOrder) {
+        //     $details = $workOrder->details->map(function ($detail) {
+        //         return [
+        //             'item' => $detail->item,
+        //             'qty' => $detail->qty,
+        //         ];
+        //     })->toArray();
+        //     $workOrder->details = $details;
+        //     return $workOrder;
+        // });
 
             return ResponseFormatter::success($data, 'Data sukses diambil');
         } catch (\Throwable $th) {
