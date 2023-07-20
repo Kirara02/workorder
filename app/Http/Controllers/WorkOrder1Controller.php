@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\EmailSend;
 use App\Models\Notification;
 use App\Models\WorkOrder;
 use Carbon\Carbon;
@@ -91,6 +92,7 @@ class WorkOrder1Controller extends Controller
             DB::beginTransaction();
             WorkOrder::findOrFail($id)->update([
                 'status' => 2,
+                'description' => '-'
             ]);
 
             $data = WorkOrder::findOrFail($id);
@@ -101,6 +103,12 @@ class WorkOrder1Controller extends Controller
                 'status' => 'Approved',
                 'description' => '-'
             ]);
+
+            $email = $data->employee->email;
+            $status = 'Diterima';
+            $description = '-';
+
+            EmailSend::sendEmail($email,$status,$description);
 
             DB::commit();
 
@@ -130,6 +138,12 @@ class WorkOrder1Controller extends Controller
                 'status' => 'Ditolak',
                 'description' => $data->description
             ]);
+
+            $email = $data->employee->email;
+            $status = 'Ditolak';
+            $description = $data->description;
+
+            EmailSend::sendEmail($email,$status,$description);
 
             DB::commit();
 
