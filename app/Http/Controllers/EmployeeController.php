@@ -124,7 +124,7 @@ class EmployeeController extends Controller
             'address' => 'required',
             'department_id' => 'required|exists:departments,id',
             'company_id' => 'required|exists:companies,id',
-            'password' => 'min:8'
+
         ]);
 
         try {
