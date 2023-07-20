@@ -6,6 +6,24 @@
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable table-responsive pt-0">
+
+        <div class="row my-3 mx-1">
+            <div class="form-group col-md-3">
+                <label for="wo_number">Pencarian berdasarkan nomor WO</label>
+                <select class="form-select" name="wo_number" id="wo_number">
+                    <option value="">Semua..</option>
+                    @foreach ($wo as $item)
+                        <option value="{{ $item->wo_number }}">{{ $item->wo_number }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group col-md-3 mt-4">
+                <button type="button" class="btn btn-primary" id="filterButton"><i class="fas fa-filter"></i> Filter</button>
+            </div>
+        </div>
+
+
         <table class="table" id="dataTable">
             <thead>
                 <tr>
@@ -35,12 +53,13 @@
 <script>
 
 
-  $(document).ready(function(){
+$(document).ready(function(){
     var table = $('#dataTable').DataTable({
       ajax: {
           url: "{{route('workorder2')}}",
           type: "GET",
           data: function(d) {
+            d.wo_number = $('#wo_number').val();
               // d._user = $('#user').val(),
               // d._start_date = $('#start_date').val(),
               // d._end_date = $('#end_date').val()
@@ -118,7 +137,9 @@
       ],
   });
 
-
-  })
+    $('#filterButton').on('click', function () {
+        table.ajax.reload();
+    });
+})
 </script>
 @endsection

@@ -56,5 +56,7 @@ Route::middleware('auth')->group(function(){
         Route::put('workorder-2/{id}/update', 'update')->name('workorder2.update');
         Route::get('workorder-2/{id}/print', 'print')->name('workorder2.print');
         Route::delete('workorder-2/{id}', 'destroy')->name('workorder2.destroy');
+
+        Route::get('workorder-approved', 'getWoApproved')->name('wo_approved');
     });
 });

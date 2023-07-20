@@ -15,32 +15,44 @@ class WorkOrder2Controller extends Controller
     public function index(Request $request)
     {
         $title = 'Data Work Order 2';
+        $wo = WorkOrder::where('status', 2)->orderBy('created_at', 'desc')->get();
+        $wo_number = $request->wo_number;
 
-        if($request->ajax()){
-            $data = WorkOrderDetail::with(['workorder','workorder.employee','workorder.company','workorder.department','unit'])
-            ->whereHas('workorder', function ($query) {
-                $query->where('status', 2);
-            })
-            ->get();
+        $data = WorkOrderDetail::with(['workorder', 'workorder.employee', 'workorder.company', 'workorder.department', 'unit'])
+                ->whereHas('workorder', function ($q) use ($wo_number){
+                    $q->where('status', 2);
+                })->get();
 
-            return DataTables::of($data)
-            ->addColumn('action', function ($row) {
-                $btn =  '<a href="' . route('workorder2.edit', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-pen"></i></a>'.
-                        '<a href="' . route('workorder2.print', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-print"></i></a>'.
-                        '<form id="form-delete" action="'.route('workorder2.destroy', $row->id).'" method="post" class="d-inline">
-                        '.method_field('DELETE').'
-                        '.csrf_field().'
-                        <button type="button" class="btn btn-sm btn-outline-warning btn-delete"><i class="fas fa-trash"></i></button>
-                        </form>';
-
-                return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make();
+        if ($wo_number != null) {
+            $data = WorkOrderDetail::with(['workorder', 'workorder.employee', 'workorder.company', 'workorder.department', 'unit'])
+            ->whereHas('workorder', function ($q) use ($wo_number) {
+                $q->where('wo_number',  $wo_number);
+            })->get();
         }
 
-        return view('pages.workorder2.index', compact('title'));
+        if ($request->ajax()) {
+
+            return DataTables::of($data)
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('workorder2.edit', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-pen"></i></a>' .
+                        '<a href="' . route('workorder2.print', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-print"></i></a>' .
+                        '<form id="form-delete" action="' . route('workorder2.destroy', $row->id) . '" method="post" class="d-inline">' .
+                        method_field('DELETE') .
+                        csrf_field() .
+                        '<button type="button" class="btn btn-sm btn-outline-warning btn-delete"><i class="fas fa-trash"></i></button>' .
+                        '</form>';
+
+                    return $btn;
+                })
+
+                ->rawColumns(['action'])
+                ->make();
+        }
+
+        return view('pages.workorder2.index', compact('title', 'wo'));
     }
+
+
 
     public function destroy($id)
     {
@@ -98,5 +110,17 @@ class WorkOrder2Controller extends Controller
     public function print($id)
     {
 
+    }
+
+    public function getWoApproved(Request $request)
+    {
+        if($request->ajax()){
+            $wo = WorkOrder::select('wo_number')
+                ->where('status',2)
+                ->orderBy('wo_number','desc')
+                ->get();
+
+            return response()->json($wo);
+        }
     }
 }

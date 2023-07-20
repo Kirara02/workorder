@@ -16,7 +16,7 @@
             <div class="col-xl-3 col-md- col-sm-12 mb-3">
                 <label class="form-label" for="creditCardMask">No. NRP</label>
                 <div class="input-group input-group-merge">
-                  <input type="text" id="nrp" class="form-control" name="nrp" placeholder="No NRP" value="{{ $employee->nrp ?? $nomor }}" readonly/>
+                  <input type="text" id="nrp" class="form-control" name="nrp" placeholder="No NRP" value="{{ $employee->nrp ?? old('nrp') }}" />
                 </div>
                 @error('nrp')
                     <small class="text-danger">{{ $message }}</small>

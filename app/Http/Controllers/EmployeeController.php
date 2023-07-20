@@ -35,7 +35,6 @@ class EmployeeController extends Controller
                   })
                   ->rawColumns(['action'])
                   ->make();
-
         }
 
         return view('pages.employee.index', compact('title'));
@@ -48,11 +47,10 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $method = 'POST';
         $action = route('karyawan.store');
-        $nomor = Helper::generateEmployeeNumber();
         $department = Department::get();
         $company = Company::get();
 
-        return view('pages.employee.form', compact('title','employee','method','action','nomor','department','company'));
+        return view('pages.employee.form', compact('title','employee','method','action','department','company'));
     }
 
     public function store(Request $request)
@@ -66,7 +64,7 @@ class EmployeeController extends Controller
             'address' => 'required',
             'department_id' => 'required|exists:departments,id',
             'company_id' => 'required|exists:companies,id',
-            'password' => 'required|max:8',
+            'password' => 'required',
         ]);
         try {
             DB::beginTransaction();

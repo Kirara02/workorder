@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\EmailSend;
 use App\Helpers\Helper;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WorkOrderResource;
+use App\Models\User;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class WorkOrderAPIController extends Controller
@@ -47,7 +50,11 @@ class WorkOrderAPIController extends Controller
                 }
             }
             $data['items'] = $detail::where('workorder_id', $data->id)->get();
+
             DB::commit();
+
+            EmailSend::adminSendEmail();
+
             return ResponseFormatter::success($data,'Data created successfully',201);
         } catch (\Throwable $th) {
             DB::rollBack();

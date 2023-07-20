@@ -61,11 +61,11 @@
                 <ul class="list-group list-group-flush">
                     @if(App\Models\WorkOrder::where('status',1)->count() == 0)
                     <div class="flex-grow-1 p-1">
-                        <p class="mb-0 text-center">Tidak ada persetujuan terbaru</p>
+                        <p class="mb-0 text-center">Tidak ada permintaan terbaru</p>
                     </div>
                     @else
 
-                    @foreach (App\Models\WorkOrder::with(['employee'])->where('status',1)->get() as $item)
+                    @foreach (App\Models\WorkOrder::with(['employee'])->where('status',1)->orderBy('created_at','desc')->get() as $item)
                     <li class="list-group-item list-group-item-action dropdown-notifications-item">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
@@ -122,7 +122,7 @@
                     </div>
                     </div>
                     <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                    <span class="fw-semibold d-block">{{ Auth::user()->email }}</span>
                     <small class="text-muted">admin</small>
                     </div>
                 </div>
