@@ -78,7 +78,7 @@ class WorkOrderAPIController extends Controller
             $limit = $request->input('limit');
 
             $query = WorkOrder::with(['details'])
-                ->select('work_orders.id', 'wo_number', 'order_date', 'employees.name as name', 'nrp', 'companies.name as company', 'departments.name as department', 'start_date', 'end_date', 'hours_use', 'status', 'request_description')
+                ->select('work_orders.id', 'wo_number', 'order_date', 'employees.name as name', 'nrp', 'companies.name as company', 'departments.name as department', 'start_date', 'end_date', 'status', 'request_description')
                 ->join('employees', 'work_orders.employee_id', '=', 'employees.id')
                 ->join('companies', 'work_orders.company_id', '=', 'companies.id')
                 ->join('departments', 'work_orders.department_id', '=', 'departments.id')
