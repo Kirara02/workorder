@@ -54,7 +54,31 @@
                 </td>
               </tr>
               <tr>
-                <td><small class="text-light fw-semibold">Jenis Unit</small></td>
+                <td><small class="text-light fw-semibold">Tanggal Mulai</small></td>
+                <td class="py-1">
+                  <p class="mb-0">{{ $data->workorder->start_date }}</p>
+                </td>
+              </tr>
+              <tr>
+                <td><small class="text-light fw-semibold">Tanggal Akhir</small></td>
+                <td class="py-1">
+                  <p class="mb-0">{{ $data->workorder->end_date }}</p>
+                </td>
+              </tr>
+              <tr>
+                <td><small class="text-light fw-semibold">Unit yang diperlukan</small></td>
+                <td class="py-1">
+                  <p class="mb-0">{{ $data->item ?? '-' }}</p>
+                </td>
+              </tr>
+              <tr>
+                <td><small class="text-light fw-semibold">Jumlah</small></td>
+                <td class="py-1">
+                  <p class="mb-0">{{ $data->qty ?? '0' }}</p>
+                </td>
+              </tr>
+              <tr>
+                <td><small class="text-light fw-semibold">Type Unit</small></td>
                 <td class="py-1">
                   <p class="mb-0">{{ $data->unit->type ?? '-' }}</p>
                 </td>
@@ -71,36 +95,18 @@
                   <p class="mb-0">{{ $data->unit->egi ?? '-' }}</p>
                 </td>
               </tr>
-              <tr>
-                <td><small class="text-light fw-semibold">Unit yang diperlukan</small></td>
-                <td class="py-1">
-                  <p class="mb-0">{{ $data->item ?? '-' }}</p>
-                </td>
-              </tr>
-              <tr>
-                <td><small class="text-light fw-semibold">Jumlah</small></td>
-                <td class="py-1">
-                  <p class="mb-0">{{ $data->qty ?? '0' }}</p>
-                </td>
-              </tr>
-              <tr>
-                <td><small class="text-light fw-semibold">Tanggal Mulai</small></td>
-                <td class="py-1">
-                  <p class="mb-0">{{ $data->workorder->start_date }}</p>
-                </td>
-              </tr>
-              <tr>
-                <td><small class="text-light fw-semibold">Tanggal Akhir</small></td>
-                <td class="py-1">
-                  <p class="mb-0">{{ $data->workorder->end_date }}</p>
-                </td>
-              </tr>
-              <tr>
+            <tr>
                 <td><small class="text-light fw-semibold">Jam Penggunaan</small></td>
                 <td class="py-1">
-                  <p class="mb-0">{{ $data->workorder->hours_use.' Jam' }}</p>
+                <p class="mb-0">{{ $data->hours_use != null ? $data->hours_use.' Jam' : '-' }}</p>
                 </td>
-              </tr>
+            </tr>
+            <tr>
+                <td><small class="text-light fw-semibold">Tanggal Selesai</small></td>
+                <td class="py-1">
+                  <p class="mb-0">{{  $data->final_date ?? '-' }}</p>
+                </td>
+            </tr>
               @if ($data->image != null)
                 <tr>
                     <td><small class="text-light fw-semibold">Image</small></td>
@@ -140,10 +146,10 @@
             @method('PUT')
             <div class="col-12">
                 <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
-                    <label class="form-label" for="creditCardMask">Jenis Unit</label>
+                    <label class="form-label" for="creditCardMask">Type Unit</label>
                     <div class="input-group input-group-merge">
                         <select name="type" id="type" class="form-select">
-                            <option selected disabled value="">Pilih Jenis Unit</option>
+                            <option selected disabled value="">Pilih Type Unit</option>
                             @foreach ($type as $i)
                                 <option value="{{ $i->type }}">{{ $i->type }}</option>
                             @endforeach
@@ -181,6 +187,15 @@
                       <input type="file" id="image" class="form-control" name="image"/>
                     </div>
                     @error('image')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="col-xl-12 col-md-12 col-sm-12 mb-3">
+                    <label class="form-label" for="creditCardMask">Tanggal Selesai</label>
+                    <div class="input-group input-group-merge">
+                      <input type="datetime-local" id="final_date" class="form-control" name="final_date"/>
+                    </div>
+                    @error('final_date')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -253,5 +268,41 @@
             });
         }
     });
+
+    // Tambahkan event listener untuk perubahan pilihan kode unit
+  unitSelect.addEventListener('change', function() {
+    var selectedUnit = this.value;
+
+    // Kosongkan pilihan egi sebelumnya
+    egiSelect.innerHTML = '<option value="">Pilih EGI</option>';
+    egiSelect.disabled = true;
+
+    if (selectedUnit) {
+      var url = '/unit/' + selectedUnit + '/get-egi';
+      // Lakukan permintaan AJAX menggunakan library seperti Axios atau fetch
+      axios.get(url)
+        .then(function(response) {
+          var egis = response.data.egis;
+          egis.forEach(function(egi) {
+            var option = document.createElement('option');
+            option.value = egi; // Ganti dengan nilai yang sesuai
+            option.textContent = egi; // Ganti dengan atribut yang sesuai
+            egiSelect.appendChild(option);
+            $('#egi').val(egi)
+          });
+
+          // Set the selected EGI value if available
+          var selectedEgi = '{{ $data->egi }}'; // Assuming you pass the $data->egi from your controller
+          if (selectedEgi) {
+            egiSelect.value = selectedEgi;
+          }
+          console.log('selectedEgi:', selectedEgi); // Check the value in the console
+        egiSelect.disabled = false;
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
+  });
   </script>
 @endsection

@@ -23,7 +23,6 @@ return new class extends Migration
             $table->text('request_description');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->integer('hours_use');
             $table->text('description')->nullable();
             $table->integer('status');
             $table->timestamps();

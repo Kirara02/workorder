@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Unit;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -35,7 +36,6 @@ class WorkOrder2Controller extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="' . route('workorder2.edit', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-pen"></i></a>' .
-                        '<a href="' . route('workorder2.print', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-print"></i></a>' .
                         '<form id="form-delete" action="' . route('workorder2.destroy', $row->id) . '" method="post" class="d-inline">' .
                         method_field('DELETE') .
                         csrf_field() .
@@ -86,6 +86,8 @@ class WorkOrder2Controller extends Controller
             'unit' => 'required',
             'egi' => 'required',
             'type' => 'required',
+            'final_date' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg'
         ]);
         try {
             DB::beginTransaction();
@@ -94,10 +96,20 @@ class WorkOrder2Controller extends Controller
             $image = $request->file('image');
             $imageUrl = $image->storeAs('workorder', Str::random(12). '.' . $image->extension());
 
+            $data = WorkOrderDetail::findOrFail($id);
+            $startDate = new Carbon($data->workorder->start_date);
+            $finalDate = new Carbon($request->final_date);
+
+            $hours = $startDate->diffInHours($finalDate);
+
             WorkOrderDetail::findOrFail($id)->update([
                 'image' => $imageUrl,
-                'unit_id' => $unit->id
+                'unit_id' => $unit->id,
+                'final_date' => $request->final_date,
+                'hours_use' => $hours
             ]);
+
+
             DB::commit();
 
             return redirect()->route('workorder2');
@@ -105,11 +117,6 @@ class WorkOrder2Controller extends Controller
             DB::rollBack();
             return back()->with('error', $th->getMessage());
         }
-    }
-
-    public function print($id)
-    {
-
     }
 
     public function getWoApproved(Request $request)

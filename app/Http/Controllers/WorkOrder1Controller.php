@@ -68,6 +68,7 @@ class WorkOrder1Controller extends Controller
     {
         try {
             DB::beginTransaction();
+
             WorkOrder::findOrFail($id)->delete();
             DB::commit();
 
@@ -100,7 +101,7 @@ class WorkOrder1Controller extends Controller
             Notification::create([
                 'employee_id' => $data->employee_id,
                 'date' => Carbon::parse($data->created_at)->format('Y-m-d H:m:s'),
-                'status' => 'Approved',
+                'status' => 'Diterima',
                 'description' => '-'
             ]);
 

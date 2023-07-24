@@ -47,7 +47,8 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 
-
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- Page CSS -->
 
@@ -96,6 +97,8 @@
     <script src="{{ asset('/') }}assets/vendor/libs/moment/moment.js"></script>
     <script src="{{ asset('/') }}assets/vendor/libs/flatpickr/flatpickr.js"></script>
     <script src="{{ asset('/') }}assets/vendor/libs/select2/select2.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('/') }}assets/js/main.js"></script>

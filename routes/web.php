@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\WorkOrder1Controller;
 use App\Http\Controllers\WorkOrder2Controller;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function(){
      // Route Company
      Route::resource('/unit',UnitController::class);
      Route::get('unit/{type}/get-by-type',[UnitController::class,'getByType'])->name('unit.getByType');
+     Route::get('/unit/{unit}/get-egi', [UnitController::class,'getEgiByUnit'])->name('unit.get-egi');
 
     // Route WorkOrder1
     Route::controller(WorkOrder1Controller::class)->group(function(){
@@ -58,5 +60,10 @@ Route::middleware('auth')->group(function(){
         Route::delete('workorder-2/{id}', 'destroy')->name('workorder2.destroy');
 
         Route::get('workorder-approved', 'getWoApproved')->name('wo_approved');
+    });
+
+    Route::controller(LaporanController::class)->group(function() {
+        Route::get('laporan','index')->name('laporan');
+        Route::get('laporan/{id}/detail','show')->name('laporan.show');
     });
 });

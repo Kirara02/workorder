@@ -18,6 +18,7 @@
                 </select>
             </div>
 
+
             <div class="form-group col-md-3 mt-4">
                 <button type="button" class="btn btn-primary" id="filterButton"><i class="fas fa-filter"></i> Filter</button>
             </div>
@@ -54,6 +55,7 @@
 
 
 $(document).ready(function(){
+
     var table = $('#dataTable').DataTable({
       ajax: {
           url: "{{route('workorder2')}}",
@@ -123,12 +125,12 @@ $(document).ready(function(){
               name: 'unit.egi'
           },
           {
-              data: 'workorder.end_date',
-              name: 'workorder.end_date'
+              data: 'final_date',
+              name: 'final_date'
           },
           {
-              data: 'workorder.hours_use',
-              name: 'workorder.hours_use'
+              data: 'hours_use',
+              name: 'hours_use'
           },
           {
               data: 'action',

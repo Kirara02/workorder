@@ -84,12 +84,6 @@
                 </td>
               </tr>
               <tr>
-                <td><small class="text-light fw-semibold">Jam Penggunaan</small></td>
-                <td class="py-1">
-                  <p class="mb-0">{{ $data->hours_use.' Jam' }}</p>
-                </td>
-              </tr>
-              <tr>
                 <td><small class="text-light fw-semibold">status</small></td>
                 <td class="py-1">
                     @if ($data->status == 2)

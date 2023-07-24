@@ -19,6 +19,7 @@ class WorkOrder extends Model
     public function company(){
         return $this->belongsTo(Company::class,'company_id');
     }
+
     public function details(){
         return $this->hasMany(WorkOrderDetail::class,'workorder_id','id');
     }

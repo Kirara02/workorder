@@ -32,7 +32,6 @@ class WorkOrderAPIController extends Controller
                 'company_id' => $jsonData['company_id'],
                 'start_date' => $jsonData['start_date'],
                 'end_date' => $jsonData['end_date'],
-                'hours_use' => $jsonData['hours_use'],
                 'request_description' => $jsonData['request_description'],
                 'status' => '1',
             ]);
@@ -45,6 +44,7 @@ class WorkOrderAPIController extends Controller
                     $detail = WorkOrderDetail::create([
                         'item' => $item['item'],
                         'qty' => 1,
+                        'start_date' => $jsonData['start_date'],
                         'workorder_id' => $data->id,
                     ]);
                 }

@@ -134,4 +134,11 @@ class UnitController extends Controller
 
         return response()->json($units);
     }
+
+    public function getEgiByUnit($unit)
+    {
+        $egis = Unit::where('unit', $unit)->pluck('egi');
+
+        return response()->json(['egis' => $egis]);
+    }
 }
