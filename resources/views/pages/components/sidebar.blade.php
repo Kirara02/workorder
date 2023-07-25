@@ -66,8 +66,14 @@
       </li>
       <li class="menu-item {{ (request()->is('laporan') ? 'active':'') }}">
         <a href="{{ route('laporan') }}" class="menu-link text-white">
-          <i class="menu-icon tf-icons ti ti-report"></i>
+          <i class="menu-icon tf-icons ti ti-report-analytics"></i>
           <div >Laporan</div>
+        </a>
+      </li>
+      <li class="menu-item {{ (request()->is('report') ? 'active':'') }}">
+        <a href="{{ route('report') }}" class="menu-link text-white">
+          <i class="menu-icon tf-icons ti ti-report"></i>
+          <div >Report</div>
         </a>
       </li>
     </ul>

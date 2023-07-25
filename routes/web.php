@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\WorkOrder1Controller;
 use App\Http\Controllers\WorkOrder2Controller;
@@ -65,5 +66,10 @@ Route::middleware('auth')->group(function(){
     Route::controller(LaporanController::class)->group(function() {
         Route::get('laporan','index')->name('laporan');
         Route::get('laporan/{id}/detail','show')->name('laporan.show');
+    });
+
+    Route::controller(ReportController::class)->group(function() {
+        Route::get('report','index')->name('report');
+        Route::get('report/export','export')->name('report.export');
     });
 });
