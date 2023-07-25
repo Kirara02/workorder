@@ -22,7 +22,7 @@ class AuthController extends Controller
 
             return redirect()->intended('/dashboard');
           } catch (\Throwable $th) {
-            return redirect()->route('login')->with('error', $th->getMessage());
+            return redirect()->route('login')->with('error', 'Email atau Password salah');
           }
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\WorkOrderDetailExport;
 use App\Models\WorkOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class LaporanController extends Controller
@@ -46,7 +48,9 @@ class LaporanController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="' .
-                    route('laporan.show', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-eye"></i></a>';
+                    route('laporan.show', $row->id) . '" class="btn btn-sm btn-outline-warning me-1"><i class="fa fa-eye"></i></a>'.
+                    '<a href="' .
+                    route('laporan.export', $row->id) . '" class="btn btn-sm btn-outline-info me-1"><i class="fa fa-file-excel"></i></a>';
 
                     return $btn;
                 })
@@ -82,5 +86,13 @@ class LaporanController extends Controller
         $data = WorkOrder::with(['employee','department','company','details'])->findOrFail($id);
 
         return view('pages.laporan.detail', compact('title','data'));
+    }
+
+    public function export($id){
+        $title = 'Data Detail Laporan';
+        $data = WorkOrder::with(['employee','department','company','details'])->findOrFail($id);
+
+        return Excel::download(new WorkOrderDetailExport($data, $title), $title . '.xlsx');
+
     }
 }

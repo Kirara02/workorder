@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function(){
     Route::controller(LaporanController::class)->group(function() {
         Route::get('laporan','index')->name('laporan');
         Route::get('laporan/{id}/detail','show')->name('laporan.show');
+        Route::get('laporan/{id}/export','export')->name('laporan.export');
     });
 
     Route::controller(ReportController::class)->group(function() {
